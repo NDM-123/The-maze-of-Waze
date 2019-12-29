@@ -4,16 +4,15 @@
  */
 
 package utils;
-
 import java.io.Serializable;
 
 public class Point3D implements Serializable
 {
     /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	/**
+     *
+     */
+    private static final long serialVersionUID = 1L;
+    /**
      * Simple set of constants - should be defined in a different class (say class Constants).*/
     public static final double EPS1 = 0.001, EPS2 = Math.pow(EPS1,2), EPS=EPS2;
     /**
@@ -38,7 +37,7 @@ public class Point3D implements Serializable
 
     public Point3D(Point3D p)
     {
-       this(p.x(), p.y(), p.z());
+        this(p.x(), p.y(), p.z());
     }
     public Point3D(double x,double y)
     {this(x,y,0);}
@@ -62,6 +61,9 @@ public class Point3D implements Serializable
     public double x() {return _x;}
     public double y() {return _y;}
     public double z() {return _z;}
+    public void setX(double x){_x = x;}
+    public void setY(double y){_y = y;}
+    public void setZ(double z){_z = z;}
     public int ix() {return (int)_x;}
     public int iy() {return (int)_y;}
     public int iz() {return (int)_z;}
@@ -157,16 +159,11 @@ public class Point3D implements Serializable
 
     /** pointLineTest <br>
      test the following location of a point regards a line segment - all in 2D projection.<br><br>
-
      ONSEGMENT:  �����a----+----b������                              <br> <br>
-
      +       +        +                              <br>
      LEFT:	 �����a---------b������                              <br> <br>
-
-
      RIGHT:	 �����a---------b������                              <br>
      +      +        +                              <br> <br>
-
      INFRONTOFA:  ��+��a---------b������                              <br>
      BEHINDB:  �����a---------b����+�                              <br>
      ERROR: a==b || a==null || b == null;                               <br>
@@ -234,4 +231,3 @@ public class Point3D implements Serializable
         _y = (center.y() +  radius * Math.sin(a+angle));
     }
 }
-
