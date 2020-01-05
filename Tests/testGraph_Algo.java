@@ -213,7 +213,7 @@ class testGraph_Algo {
 
 	boolean drawGraph(graph g) { 
 		graphGui G = new graphGui();
-		
+		G.buildGraph(g);
 		return true;
 	}
 
