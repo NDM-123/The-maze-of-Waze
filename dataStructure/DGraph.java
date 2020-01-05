@@ -4,11 +4,10 @@ import java.io.Serializable;
 import java.util.*;
 
 public class DGraph implements graph, Serializable {
-    public HashMap<Integer, node_data> vertices = new HashMap<Integer, node_data>();
-    ;
-    public HashMap<node_data, HashMap<Integer, edge_data>> edges = new HashMap<node_data, HashMap<Integer, edge_data>>();
-    int MC = 0;
-    int edgesSize = 0;
+    public HashMap<Integer, node_data> vertices;
+    public HashMap<node_data,HashMap<Integer, edge_data> > edges;
+    int MC=0;
+    int edgesSize=0;
 
     public DGraph() {
         this.vertices = new HashMap<Integer, node_data>();
@@ -22,15 +21,16 @@ public class DGraph implements graph, Serializable {
 
     @Override
     public edge_data getEdge(int src, int dest) {
-        node_data vertex = this.vertices.get(src);
-        edge_data edge = this.edges.get(vertex).get(dest);
+       node_data vertex = this.vertices.get(src);
+        edge_data edge =  this.edges.get(vertex).get(dest);
 
         return edge;
     }
 
     @Override
     public void addNode(node_data n) {
-        if (this.vertices.containsKey(n) == false) {
+
+        if(this.vertices.containsKey(n)==false) {
             this.vertices.put(n.getKey(), n);
             this.edges.put(n, new HashMap<Integer, edge_data>());
             this.MC++;
@@ -39,17 +39,12 @@ public class DGraph implements graph, Serializable {
 
     @Override
     public void connect(int src, int dest, double w) {
-        try {
-            node_data vertex_a = this.vertices.get(src);
-            node_data vertex_b = this.vertices.get(dest);
-            if (vertex_a == null || vertex_b == null)
-                throw new IllegalArgumentException("source vertex not in graph");
-            this.edges.get(vertex_a).put(dest, new edgeData(src, dest, w, "", 0));
-            this.MC++;
-            this.edgesSize++;
-        } catch (IllegalArgumentException ex) {
-            ex.printStackTrace();
-        }
+         node_data vertex = this.vertices.get(src);
+         if(vertex==null||this.vertices.get(dest)==null)
+        	 throw new IllegalArgumentException("source vertex not in graph");
+        this.edges.get(vertex).put(dest,new edgeData(src,dest,w,"",0));
+        this.MC++;
+        this.edgesSize++;
     }
 
     @Override
@@ -61,12 +56,10 @@ public class DGraph implements graph, Serializable {
 
     @Override
     public Collection<edge_data> getE(int node_id) {
-
-        node_data vertex = this.vertices.get(node_id);
-        Collection<edge_data> edg = this.edges.get(vertex).values();
-        return edg;
+    node_data vertex = this.vertices.get(node_id);
+    Collection<edge_data> edg = this.edges.get(vertex).values();
+    return edg;
     }
-
     @Override
     public node_data removeNode(int key) {
         node_data vertex = this.vertices.get(key);
@@ -74,24 +67,24 @@ public class DGraph implements graph, Serializable {
         Set<node_data> set = this.edges.keySet();
         for (node_data node_data : set) {
             edge_data edg = this.edges.get(node_data).remove(key);
-            if (edg != null) this.edgesSize--;
+            if (edg != null) {
+                this.edgesSize--;
+            }
         }
         this.edgesSize -= this.edges.get(vertex).size();
         this.edges.remove(vertex);
         this.MC++;
         return this.vertices.remove(key);
-
+            
     }
-
-
     @Override
     public edge_data removeEdge(int src, int dest) {
-        node_data vertex = this.vertices.get(src);
-        edge_data edge = this.edges.get(vertex).remove(dest);
-        this.MC++;
+    node_data vertex = this.vertices.get(src);
+    edge_data edge = this.edges.get(vertex).remove(dest);
+    this.MC++;
+    this.edgesSize--;
         return edge;
     }
-
 
     @Override
     public int nodeSize() {
@@ -107,16 +100,21 @@ public class DGraph implements graph, Serializable {
     public int getMC() {
         return MC;
     }
-
-    public boolean equals(Object ob) {
-        if (!(ob instanceof DGraph)) return false;
-        boolean flag = false;
-        DGraph dg = (DGraph) ob;
-        if (!(this.vertices.equals(dg.vertices))) return false;
-        if (!(this.edges.equals(dg.edges))) return false;
-
-        return true;
+    public String toString() {
+    	String ans = "";
+    	Iterator<node_data> it1 = this.getV().iterator();
+	while(it1.hasNext()) {
+		node_data t = it1.next();
+		ans += t.getKey()+" d="+t.getWeight();
+		Iterator<edge_data> it2 = this.getE(t.getKey()).iterator();
+		while(it2.hasNext()) {
+			edge_data e = it2.next();
+			ans +="("+e.getSrc()+"-->"+e.getDest()+")"; 				
+		}
+		ans +=", ";
+	}
+	return ans;
+    	
     }
-
 
 }

@@ -5,12 +5,12 @@ import utils.Point3D;
 import java.io.Serializable;
 import java.util.Comparator;
 
-public class nodeData implements node_data, Serializable,Comparator<nodeData> {
-    Point3D location=null;
-    Integer id=0;
-    Double weight=0.0;
-    String inf="";
-    int color=0;
+public class nodeData implements node_data, Serializable, Comparator<nodeData> {
+    Point3D location;
+    Integer id;
+    Double weight;
+    String inf;
+    int color;
 
     public nodeData(){
        this.location = null;
@@ -35,7 +35,6 @@ public class nodeData implements node_data, Serializable,Comparator<nodeData> {
     }
     public nodeData(nodeData a) {
         nodeData b = new nodeData(a.location,a.id,a.weight,a.inf,a.color);
-
     }
 
     public nodeData(node_data nd) {
@@ -46,10 +45,6 @@ public class nodeData implements node_data, Serializable,Comparator<nodeData> {
         this.color=nd.getTag();
     }
 
-    public nodeData(int x, int y) {
-        Point3D p = new Point3D(x,y,0);
-        this.location=p;
-    }
 
 
     @Override
@@ -106,12 +101,7 @@ public class nodeData implements node_data, Serializable,Comparator<nodeData> {
         if (ed.getWeight() > ed2.getWeight()) return 1;
         return 0;
     }
-    public  boolean equals(Object nd1){
-        if(!(nd1 instanceof nodeData))return false;
-        nodeData nd = (nodeData) nd1;
-        if(this.location.equalsXY(nd.location)  && this.color == nd.color && this.inf.equals(nd.inf) && this.weight == nd.weight)return true;
-        return false;
-    }
+
 
 
 }
