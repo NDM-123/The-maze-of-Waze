@@ -235,7 +235,11 @@ public class Graph_Algo implements graph_algorithms, Serializable {
 					min = v3;
 				}
 				v3 = it2.next();
+				if(min.getWeight()>v3.getWeight()&&v3.getTag()==0) {
+					min = v3;
+				}
 			}
+			
 			s = min.getKey();
 			Iterator<edge_data> i = g1.getE(s).iterator();	
 			while(i.hasNext()) {                         
